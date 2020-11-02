@@ -1,0 +1,84 @@
+package com.training.pojos;
+
+public class Employee {
+	public String name;
+	public int salary;
+	public String designation;
+
+	public Employee() {
+
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getSalary() {
+		return salary;
+	}
+
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getSchema() {
+		String schema = "";
+		if (salary <= 5000 && designation.equals("Clerk")) {
+			schema = "No scheme";
+		} else if (salary > 5000 && salary <= 20000 && designation.equals("System Associate")) {
+			schema = "Scheme C";
+		} else if (salary > 20000 && salary <= 40000 && designation.equals("Programmer")) {
+			schema = "Scheme B";
+		} else if (salary > 40000 && designation.equals("Manager")) {
+			schema = "Scheme A";
+		} else {
+			System.out.println("Invalid input");
+			System.exit(0);
+		}
+		return schema;
+
+	}
+
+}
+
+
+
+
+package com.training.pl;
+import java.util.Scanner;
+
+import com.training.pojos.Employee;
+
+public class EmployeeApp {
+
+	public static void main(String[] args) {
+		System.out.println("Insurance Schemes");
+		Scanner sc = new Scanner(System.in);
+		Employee e[] = new Employee[3];
+		for(int i=1;i<3;i++) {
+			e[i]=new Employee();
+			System.out.println("Enter name");
+			e[i].setName(sc.next());
+			System.out.println("Enter salary");
+			e[i].setSalary(sc.nextInt());
+			System.out.println("Enter Designation");
+			e[i].setDesignation(sc.next());
+			System.out.print(e[i].getSchema());
+		}
+		sc.close();
+		// TODO Auto-generated method stub
+	}
+
+}

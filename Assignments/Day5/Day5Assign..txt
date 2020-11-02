@@ -1,0 +1,435 @@
+1>
+package com.infrrd.training.day5;
+
+import java.util.function.BiConsumer;
+public class LamdaEx1 {
+	public static void main(String[] args) {
+		BiConsumer<Integer, Integer> c11 = (a,b) -> System.out.println(a+""+b); // prints 56
+		c11.accept(5, 6);
+
+	}
+}
+
+
+
+
+2>
+package com.infrrd.training.day5;
+
+import java.util.function.Function;
+
+public class LambdaEx2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Function<String, String> bo = (a) -> "KAVIL".replace("", " ").trim(); //prints K A V I L
+		System.out.println(bo.apply("KAVIL"));
+
+	}
+
+}
+
+
+
+
+3>
+package com.infrrd.training.day5;
+import java.util.function.BiFunction;
+public class LambdaEx3 {
+
+	public static void main(String[] args) {
+		String uname = args[0]; //command line input
+		String pass = args[1];
+		BiFunction<String, String, Boolean> bf = (name,pwd) -> (name.equals(uname)&&pwd.equals(pass))?true:false; // Ternary Operator
+		System.out.println(bf.apply("KAVIL", "JAIN"));
+		// TODO Auto-generated method stub
+
+	}
+
+}
+
+
+
+
+4>
+package com.infrrd.training.day5;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class FileEx1 {
+
+	public static void main(String[] args) throws IOException {
+		File text = new File("numbers.txt");
+		Scanner sc = new Scanner(text);
+		while (sc.hasNextLine()) {  // runs until end of file
+			String s = sc.nextLine();
+			String[] intstr = s.split(",");
+			int[] arr = new int[intstr.length];
+			for (int i = 0; i < arr.length; i++) {
+				arr[i] = Integer.parseInt(intstr[i]);   // parsing string array to integer array
+			}
+			for (int i = 1; i < arr.length; i++) {
+				if (arr[i] % 2 == 0) {    // Even numbers condition
+					System.out.print(" " + arr[i]);
+				}
+			}
+			// TODO Auto-generated method stub
+		}
+		sc.close();
+	}
+
+}
+
+
+
+
+5>
+package com.infrrd.training.day5;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class File2 {
+
+	public static void main(String[] args) throws IOException {
+		try (
+		FileReader fr = new FileReader("text")) {
+			StringBuffer s = new StringBuffer();
+			char[] ch = new char[200];
+			while(fr.read(ch)!=-1) {      //Reading file to String Buffer until eof is reached
+				 s.append(new String(ch));   // converting characters to string and appending to String buffer
+				 System.out.println(s);
+			}
+			s=s.reverse();     //reversing of string
+			System.out.println(s);
+			String ss = s.toString();   //converting String buffer to string
+			fr.close();
+			FileWriter fw = new FileWriter("text");
+			fw.write(ss);   //writing to "text" file
+			fw.close();
+		}
+		
+	}
+}
+
+
+
+
+
+
+
+
+
+package com.training.pojos;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+
+public class Player implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int id;
+	private String name;
+	private LocalDate dob;
+	private int score;
+	private String email;
+	private String phone;
+	public Address address = new Address();
+
+	public Player() {
+
+	}
+
+	public Player(int id, String name, LocalDate dob, int score, String email, String phone) {
+		this.id = id;
+		this.name = name;
+		this.dob = dob;
+		this.score = score;
+		this.email = email;
+		this.phone = phone;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public LocalDate getDob() {
+		return dob;
+	}
+
+	public void setDob(LocalDate date) {
+		this.dob = date;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	@Override
+	public String toString() {
+		return "Player [id=" + id + ", name=" + name + ", dob=" + dob + ", score=" + score + ", email=" + email
+				+ ", phone=" + phone + ", address=" + address + "]";
+	}
+
+}
+
+
+package com.training.pojos;
+
+import java.io.Serializable;
+
+public class Address implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String drno;
+	private String street;
+	private String city;
+	private String state;
+	private long pincode;
+
+	public Address() {
+
+	}
+
+	public Address(String drno, String street, String city, String state, long pincode) {
+		this.drno = drno;
+		this.street = street;
+		this.city = city;
+		this.state = state;
+		this.pincode = pincode;
+	}
+
+	public String getDrno() {
+		return drno;
+	}
+
+	public void setDrno(String drno) {
+		this.drno = drno;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public long getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(long pincode) {
+		this.pincode = pincode;
+	}
+
+	@Override
+	public String toString() {
+		return "Address [drno=" + drno + ", street=" + street + ", city=" + city + ", state=" + state + ", pincode="
+				+ pincode + "]";
+	}
+
+}
+
+
+package com.training.service;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+import java.time.LocalDate;
+import java.time.Period;
+
+import com.training.pojos.Player;
+
+public class PlayerService {
+	Player[] p = new Player[5];
+
+	public void addPlayer(Player player) {
+		if (player.getId() < 1 && player.getId() > 999) {
+			System.out.println("Id should be within (1-999)");
+			System.exit(0);
+		}
+		if (!(player.getName().matches("^[A-Z][a-z]+.{2,}"))) {
+			System.out.println("Name Invalid, First letter should be uppercase");
+			System.exit(0);
+		}
+		LocalDate dob = player.getDob();
+		LocalDate now = LocalDate.now();
+		Period diff = Period.between(now, dob);
+		int age = diff.getYears();
+		if (age > 24) {
+			System.out.println("Age should be below 24");
+			System.exit(0);
+		}
+		if (player.getScore() < 10 && player.getScore() > 100) {
+			System.out.println("Enter score between 10 and 100");
+			System.exit(0);
+		}
+		if (!(player.getEmail().matches("((?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{8,32})@([a-z]{4,7}).(com|co.in|org)"))) {
+			System.out.println("Invalid Mail");
+			System.exit(0);
+		}
+		if (!(player.getPhone().matches("^[+][9][1][-][6|7|8|9]([0-9]{9})"))) {
+			System.out.println("Invalid Phone number");
+			System.exit(0);
+		}
+		if (!(player.address.getDrno().matches("^[#]([0-9].{0,4})"))) {
+			System.out.println("Invalid Door number");
+			System.exit(0);
+		}
+		if (!(player.address.getStreet().matches("^[0-9]+[a-z]+"))) {
+			System.out.println("Invalid Street");
+			System.exit(0);
+		}
+		if (!(player.address.getCity().matches("[A-Za-z]+"))) {
+			System.out.println("Invalid city");
+			System.exit(0);
+		}
+		if (!(player.address.getState().matches("[A-Za-z]+"))) {
+			System.out.println("Invalid state");
+			System.exit(0);
+		}
+		if (player.address.getPincode() < 100000 && player.address.getPincode() > 1000000) {
+			System.out.println("Invalid Pincode number");
+			System.exit(0);
+		} else {
+			p[0] = player;
+		}
+	}
+
+	public Player[] getAllPlayers() {
+
+		return p;
+	}
+
+	public void addAllTOFile(Player player) throws IOException {
+		FileOutputStream fs = new FileOutputStream("Player");
+		ObjectOutputStream os = new ObjectOutputStream(fs);
+		os.writeObject(player);
+		os.flush();
+		os.close();
+	}
+}
+
+
+
+
+package com.training.pl;
+
+import java.util.Scanner;
+import com.training.pojos.Player;
+import com.training.service.PlayerService;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class PlayerMain {
+
+	public static void main(String[] args) throws ParseException, IOException {
+		Scanner sc = new Scanner(System.in);
+		Player p = new Player();
+		PlayerService ps = new PlayerService();
+			System.out.println("Enter id");
+			p.setId(sc.nextInt());
+			System.out.println("Enter name");
+			p.setName(sc.next());
+			System.out.println("Enter dob");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			String date = sc.next();
+			LocalDate localDate = LocalDate.parse(date, formatter);
+			p.setDob(localDate);
+			System.out.println("Enter score");
+			p.setScore(sc.nextInt());
+			System.out.println("Enter email");
+			p.setEmail(sc.next());
+			System.out.println("Enter phone number");
+			p.setPhone(sc.next());
+			System.out.println("Enter Address");
+			System.out.println("Enter Door number");
+			p.getAddress().setDrno(sc.next());
+			System.out.println("Enter Street");
+			p.getAddress().setStreet(sc.next());
+			System.out.println("Enter City");
+			p.getAddress().setCity(sc.next());
+			System.out.println("Enter State");
+			p.getAddress().setState(sc.next());
+			System.out.println("Enter Pincode");
+			p.getAddress().setPincode(sc.nextLong());
+			ps.addPlayer(p);
+			
+			ps.addAllTOFile(p);
+			sc.close();
+		// TODO Auto-generated method stub
+
+	}
+
+}
+
+

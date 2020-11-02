@@ -1,0 +1,14 @@
+1.Display list of employees working under either Pradeep or Srinivas.
+2. Display list of employees who are in accounts department.
+3. Write a query to display the names and salaries of employees in Research Department.
+4. Find  the employee’s who are getting maximum salary in their respective job
+5.Write a query to display all the department names & their location names.
+6.Write a query to display the name, job name, department name and location of every employee.
+7.Write a query to display the List of departments with at least one ANALYST along with their location name.
+8.Display the employee name and job name of all the employees.
+9.Display department name and its location name for all departments.
+10.Display the employee name and job name of all the employees in department no. 30.
+11.Display employee name and department name for all analysts.
+
+
+

@@ -1,0 +1,21 @@
+1. Account with multiplethreads ex: with 2 threads
+2. Account with withdraw and deposit, only one thread can access the withdraw or deposit method at a time.
+3. Withdraw should happen only if balance greater than 0 
+Deposit should happen only if balance less than or equal to 0
+4. ProducerConsumer Problem with o/p  as follows:
+produced 0                           
+produced 1 
+consumed 0
+consumed 1
+produced 2
+produced 3
+consumed 2
+consumed 3
+produced 4
+produced 5
+consumed 4
+consumed 5
+produced 6
+produced 7
+consumed 6
+consumed 7

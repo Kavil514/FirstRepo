@@ -1,0 +1,12 @@
+1.Write a lambda expression which accepts x and y numbers and return xy.
+
+2: Write a method that uses lambda expression to format a given string, where a space is inserted between each character of string. For ex., if input is “CG”, then expected output is “C G”.
+
+3: Write a method that uses lambda expression to accept username and password and return
+true or false. (Hint: Use any custom values for username and password for authentication)
+
+4. Create a file named as “numbers.txt” which should contain numbers from 0 to 10 delimited by comma. Write a program to read data from numbers.txt using Scanner class API and display only even numbers in the console.
+
+5. Write a program to read content from file, reverse the content and write the reversed content to the file. (Use Reader and Writer APIs).
+
+6. Enhance the lab assignment player or user by adding functionality in service class to write employee object into a File. Also read employee details from file and display the same in console. Analyze the output of the program.

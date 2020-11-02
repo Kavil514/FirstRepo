@@ -1,0 +1,22 @@
+-- 1
+select e.ename from employee e where e.mgrno IN (select eid from employee where ename='KAVIL' or ename='KOHLI');
+-- 2
+select * from employee where deptno = ANY(select deptno from department where dname="Presales");
+-- 3
+select ename,salary from employee where deptno = ANY(select deptno from department where dname = "Production");
+-- 4
+select ename,MAX(salary),jcode from employee group by jcode; 
+-- 5
+select d.dname,l.lname from department d, location l where d.lcode=l.lcode;
+-- 6
+select e.ename,j.jname,d.dname,l.lname from employee e, job j, department d, location l where e.jcode=j.jcode and e.deptno=d.deptno and d.lcode=l.lcode;
+-- 7
+select distinct d.dname,l.lname from department d,employee e, location l where e.jcode=SOME(select j.jcode from job j where j.jname='Sales' ) and e.deptno=d.deptno and d.lcode=l.lcode;
+-- 8
+select e.ename,j.jname from employee e,job j where e.jcode=j.jcode;
+-- 9
+select d.dname,l.lname from department d, location l where d.lcode=l.lcode;
+-- 10
+select e.ename,j.jname from employee e, job j where e.deptno=12 and j.jcode=e.jcode;
+-- 11
+select e.ename,d.dname,j.jcode from employee e, job j, department d where j.jcode=e.jcode and e.deptno = d.deptno;

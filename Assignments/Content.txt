@@ -1,0 +1,35 @@
+1st week
+•	Declarations and Access Control 
+•	Operators ,Flow Control
+•	Object Orientation 
+•	Assignments
+•	Strings, I/O, Formatting, and Parsing
+•	 Exceptions
+•	Maven Fundamentals
+•	TDD with Junit 5
+2nd week
+•	Generics and Collections
+•	Threads
+•	Concurrent Patterns in Java
+•	Concurrent Collections
+•	Lambda Expressions
+•	Stream API
+Post Assessment--MCQ
+-CaseStudy
+3rd week-- PreAssessment + PostAssessment for JDBC, SQL , SErvlets
+• SQL
+• JDBC -- 2 days
+• Servlets
+• Spring
+4th Week -- PreAssessment + PostAssessment for Spring
+• Spring 
+5th Week --PreAssessment + PostAssessment MongoDB
+• MongoDB 
+--Final PostAssessment
+
+Assignment: 10 Marks
+-------------------
+3 Coding standards
+3 Logic
+3 How much completed
+1 Comments

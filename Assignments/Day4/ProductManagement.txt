@@ -1,0 +1,972 @@
+package com.pms.training.pojos;
+
+import java.time.LocalDate;
+
+public class User {
+	private String uname;
+	private String password;
+	private String role;
+	private LocalDate dob;
+	private long contactNumber;
+
+	public User() {
+
+	}
+
+	public User(String uname, String password, String role, LocalDate dob, long contactNumber) {
+		this.uname = uname;
+		this.password = password;
+		this.role = role;
+		this.dob = dob;
+		this.contactNumber = contactNumber;
+	}
+
+	public User(String role) {
+		this.role = role;
+	}
+
+	public String getUname() {
+		return uname;
+	}
+
+	public void setUname(String uname) {
+		this.uname = uname;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public LocalDate getDob() {
+		return dob;
+	}
+
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+	}
+
+	public long getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(long contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
+	@Override
+	public String toString() {
+		return "User [uname=" + uname + ", password=" + password + ", role=" + role + ", contactNumber=" + contactNumber
+				+ "]";
+	}
+
+}
+
+
+
+
+package com.pms.training.pojos;
+
+public class Product {
+	private int pid;
+	private String pname;
+	private double cost;
+	private int qty;
+	private String brand;
+	private Category category;
+
+	public Product() {
+
+	}
+
+	public Product(int pid, String pname, double cost, int qty, String brand) {
+		this.pid = pid;
+		this.pname = pname;
+		this.cost = cost;
+		this.qty = qty;
+		this.brand = brand;
+		this.category = new Category();
+	}
+
+	public Product(int pid, String pname, double cost, int qty, String brand, Category category) {
+		this.pid = pid;
+		this.pname = pname;
+		this.cost = cost;
+		this.qty = qty;
+		this.brand = brand;
+		this.category = category;
+	}
+
+	public int getPid() {
+		return pid;
+	}
+
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+
+	public double getCost() {
+		return cost;
+	}
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
+	public int getQty() {
+		return qty;
+	}
+
+	public void setQty(int qty) {
+		this.qty = qty;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [pid=" + pid + ", pname=" + pname + ", cost=" + cost + ", qty=" + qty + ", brand=" + brand
+				+ ", category=" + category + "]";
+	}
+
+}
+
+
+
+
+
+package com.pms.training.pojos;
+
+import java.util.Arrays;
+
+public class Category {
+	private int catid;
+	private String categoryName;
+	private Product[] products;
+
+	public Category() {
+
+	}
+
+	public Category(int catid, String categoryName) {
+		this.catid = catid;
+		this.categoryName = categoryName;
+	}
+
+	public Category(int catid, String categoryName, Product[] products) {
+		this.catid = catid;
+		this.categoryName = categoryName;
+		this.products = products;
+	}
+
+	public int getCatid() {
+		return catid;
+	}
+
+	public void setCatid(int catid) {
+		this.catid = catid;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public Product[] getProducts() {
+		return products;
+	}
+
+	public void setProducts(Product[] products) {
+		this.products = products;
+	}
+
+	@Override
+	public String toString() {
+		return "Category [catid=" + catid + ", categoryName=" + categoryName + ", products=" + Arrays.toString(products)
+				+ "]";
+	}
+
+}
+
+
+
+
+
+
+package com.pms.training.exceptions;
+
+public class BusinessException extends Exception {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public BusinessException(String message) {
+		super(message);
+	}
+}
+
+
+
+
+package com.pms.training.exceptions;
+
+public class UserNotFoundException extends Exception {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public UserNotFoundException(String message) {
+		super(message);
+	}
+}
+
+
+
+
+
+package com.pms.training.services;
+
+import com.pms.training.exceptions.BusinessException;
+import com.pms.training.exceptions.UserNotFoundException;
+import com.pms.training.pojos.User;
+
+public interface UserService {
+	public User login(String uname, String password) throws UserNotFoundException;
+
+	public void signUp(User user) throws BusinessException;
+
+	public User[] getAllUsers() throws BusinessException;
+
+	public User getUserByIndex(int index);
+
+}
+
+
+
+
+
+package com.pms.training.services;
+
+import com.pms.training.exceptions.BusinessException;
+import com.pms.training.exceptions.UserNotFoundException;
+import com.pms.training.pojos.User;
+
+public class UserServiceImpl implements UserService {
+	int currentuser = 0;
+	User[] users = null;
+
+	public UserServiceImpl(int size) {
+		users = new User[size];
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public User login(String uname, String password) throws UserNotFoundException {
+		User u = null;
+		for (User user : users) {
+			if (user.getUname().equals(uname) && user.getPassword().equals(password)) {
+				u = user;
+			}
+		}
+		if (u == null) {
+			throw new UserNotFoundException("User doesn't exist");
+		}
+
+		return u;
+	}
+
+	@Override
+	public void signUp(User user) throws BusinessException {
+		// for (int i = 0; i < users.length; i++) {
+		if (user.getUname().matches("[A-Z][A-Za-z]*")) {
+			if (user.getPassword().matches("(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{8}")) {
+				if (user.getRole().equalsIgnoreCase("user") || user.getRole().equalsIgnoreCase("admin")) {
+					users[currentuser++] = user;
+				} else {
+					throw new BusinessException("Invalid Role");
+				}
+			} else {
+				throw new BusinessException(
+						"Invalid Password(Combination of upper, lower and number with 8 Characters)");
+			}
+		} else {
+			throw new BusinessException("Invalid username");
+		}
+		// }
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public User[] getAllUsers() throws BusinessException {
+		// TODO Auto-generated method stub
+		return users;
+	}
+
+	@Override
+	public User getUserByIndex(int index) {
+		// TODO Auto-generated method stub
+		return users[index];
+	}
+
+}
+
+
+
+
+
+package com.pms.training.services;
+
+import com.pms.training.exceptions.BusinessException;
+import com.pms.training.pojos.Category;
+import com.pms.training.pojos.Product;
+
+public interface ProductService {
+	public Product getProduct(int index) throws BusinessException;
+
+	public Product[] getAll() throws BusinessException;
+
+	public Category[] getAllCategories() throws BusinessException;
+
+	public void addProduct(Product p) throws BusinessException;
+
+	public void addCategory(Category c) throws BusinessException;
+
+	public Product[] getAllProductsByCategory(Category cat) throws BusinessException;
+}
+
+
+
+
+
+
+package com.pms.training.services;
+
+import com.pms.training.exceptions.BusinessException;
+import com.pms.training.pojos.Category;
+import com.pms.training.pojos.Product;
+
+public class ProductServiceImpl implements ProductService {
+
+	Category[] catArray = new Category[5];
+	Product[] proArray = new Product[5];
+	Product p1 = new Product();
+	int count = 0;
+	int catcount = 0;
+	int coun = 0;
+
+	@Override
+	public Product getProduct(int index) throws BusinessException {
+		Product[] allProducts = getAll();
+		Product product = null;
+		boolean status = false;
+		for (Product p : allProducts) {
+			if (p != null && p.getPid() == index) {
+				status = true;
+				product = p;
+			}
+		}
+		if (!status) {
+			throw new BusinessException("Product Not Found!");
+		}
+		return product;
+	}
+
+	@Override
+	public Product[] getAll() throws BusinessException {
+		return proArray;
+
+	}
+
+	@Override
+	public Category[] getAllCategories() throws BusinessException {
+		return catArray;
+	}
+
+	@Override
+	public void addProduct(Product p) throws BusinessException {
+		proArray[count] = p;
+		count++;
+	}
+
+	@Override
+	public void addCategory(Category c) throws BusinessException {
+		catArray[catcount] = c;
+		catcount++;
+	}
+
+	@Override
+	public Product[] getAllProductsByCategory(Category cat) throws BusinessException {
+		Product pr[] = new Product[5];
+		while (coun != 4) {
+			if ((proArray[coun].getCategory().getCatid()) == (cat.getCatid())) {
+				pr[coun] = proArray[coun];
+			}
+			coun++;
+		}
+		return pr;
+	}
+
+}
+
+
+
+
+
+
+package com.pms.training.pl;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+
+import com.pms.training.exceptions.BusinessException;
+import com.pms.training.exceptions.UserNotFoundException;
+import com.pms.training.pojos.Category;
+import com.pms.training.pojos.Product;
+import com.pms.training.pojos.User;
+import com.pms.training.services.ProductService;
+import com.pms.training.services.ProductServiceImpl;
+import com.pms.training.services.UserService;
+import com.pms.training.services.UserServiceImpl;
+
+public class ProductApp {
+
+	public static void main(String[] args) throws BusinessException {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("How Many Users you want");
+		UserService userService = new UserServiceImpl(sc.nextInt());
+		ProductService productService = new ProductServiceImpl();
+		Product pro = new Product();
+		Category cat = new Category();
+		do {
+			System.out.println("1. Login \n2. Signup \n3. Exit");
+			int choice = sc.nextInt();
+			if (choice == 1) {
+				System.out.println("Enter Username");
+				String name = sc.next();
+				System.out.println("Enter Password");
+				String pass = sc.next();
+				try {
+					User us = userService.login(name, pass);
+					System.out.println("Login Success");
+					if (us.getRole().equalsIgnoreCase("admin")) {
+						while (true) {
+							System.out.println(
+									"1. Update Username\n2. Update Password\n3. Add Category\n4. Add Product\n5. Get Products\n6. Get Categories\n7. Product Based on Category\n8. Logout");
+							int nextInt = sc.nextInt();
+							if (nextInt == 1) {
+								System.out.println("Enter new username");
+								us.setUname(sc.next());
+								System.out.println("Username Updated");
+								System.out.println(us);
+							} else if (nextInt == 2) {
+								System.out.println("Enter new password");
+								us.setPassword(sc.next());
+								System.out.println("Password Updated");
+								System.out.println(us);
+							} else if (nextInt == 3) {
+								System.out.println("Enter Category Details");
+								System.out.println("1. Category Id\n2. Category Name");
+								cat = new Category(sc.nextInt(), sc.next());
+								productService.addCategory(cat);
+								System.out.println("Category added");
+							} else if (nextInt == 4) {
+								System.out.println("Enter Product Details");
+								System.out.println(
+										"1. Product Id\n2. Product Name\n3. Product Cost\n4. Product Quantity\n5. Product Brand");
+								pro = new Product(sc.nextInt(), sc.next(), sc.nextDouble(), sc.nextInt(), sc.next(),
+										cat);
+								productService.addProduct(pro);
+								System.out.println("Product Added");
+							} else if (nextInt == 5) {
+								Product[] getAllPro = productService.getAll();
+								for (Product p1 : getAllPro) {
+									System.out.println(p1);
+								}
+							} else if (nextInt == 6) {
+								Category[] getAllCat = productService.getAllCategories();
+								for (Category c1 : getAllCat) {
+									System.out.println(c1);
+								}
+							} else if (nextInt == 7) {
+								Category cc;
+								System.out.println("Enter Category id and name");
+								cc = new Category(sc.nextInt(), sc.next());
+								Product[] getAllp = productService.getAllProductsByCategory(cc);
+								for (Product pp : getAllp) {
+									System.out.println(pp);
+								}
+							} else if (nextInt == 8) {
+								System.out.println("Bye");
+								break;
+							}
+						}
+
+					} else if (us.getRole().equalsIgnoreCase("user")) {
+						while (true) {
+							System.out.println(
+									"1. Update Username\n2.Update Password\n3. Get Products\n4. Get Categories\n5. Product Based on Category\n6. Logout");
+							int nextInt = sc.nextInt();
+							if (nextInt == 1) {
+								System.out.println("Enter new username");
+								us.setUname(sc.next());
+								System.out.println("Username Updated");
+								System.out.println(us);
+							} else if (nextInt == 2) {
+								System.out.println("Enter new password");
+								us.setPassword(sc.next());
+								System.out.println("Password Updated");
+								System.out.println(us);
+							} else if (nextInt == 3) {
+								Product[] getAllPro = productService.getAll();
+								for (Product p1 : getAllPro) {
+									System.out.println(p1);
+								}
+							} else if (nextInt == 4) {
+								Category[] getAllCat = productService.getAllCategories();
+								for (Category c1 : getAllCat) {
+									System.out.println(c1);
+								}
+							} else if (nextInt == 5) {
+								Category cc;
+								System.out.println("Enter Category id and name");
+								cc = new Category(sc.nextInt(), sc.next());
+								Product[] getAllp = productService.getAllProductsByCategory(cc);
+								for (Product pp : getAllp) {
+									System.out.println(pp);
+								}
+							} else if (nextInt == 6) {
+								System.out.println("Bye");
+								break;
+							}
+						}
+					}
+				} catch (UserNotFoundException u) {
+					System.out.println(u.getMessage());
+				}
+
+			} else if (choice == 2) {
+				System.out.println("Enter the User Details 1. Dob, 2. Username 3.Password 4.Role 5.ContactNumber");
+				String someDate = sc.next();
+				DateTimeFormatter sd12 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+				LocalDate dob = LocalDate.parse(someDate, sd12);
+				User user1 = new User(sc.next(), sc.next(), sc.next(), dob, sc.nextLong());
+				try {
+					userService.signUp(user1);
+					User[] users = userService.getAllUsers();
+					for (User u : users) {
+						System.out.println(u);
+					}
+				} catch (BusinessException e) {
+					e.printStackTrace();
+				}
+
+			} else if (choice == 3) {
+				System.out.println("Thank You");
+				sc.close();
+				System.exit(0);
+			} else {
+				System.out.println("invalid");
+			}
+		} while (true);
+
+	}
+
+}
+
+
+
+
+
+
+
+OUTPUT:
+How Many Users you want
+2
+1. Login 
+ 2. Signup 
+ 3. Exit
+2
+Enter the User Details 1. Dob, 2. Username 3.Password 4.Role 5.ContactNumber
+14-06-1999
+Kavil
+Kavil514
+admin
+9876543210
+User [uname=Kavil, password=Kavil514, role=admin, contactNumber=9876543210]
+null
+1. Login 
+ 2. Signup 
+ 3. Exit
+2
+Enter the User Details 1. Dob, 2. Username 3.Password 4.Role 5.ContactNumber
+15-07-2000
+Jain
+Jain1234
+user
+8765432109
+User [uname=Kavil, password=Kavil514, role=admin, contactNumber=9876543210]
+User [uname=Jain, password=Jain1234, role=user, contactNumber=8765432109]
+1. Login 
+ 2. Signup 
+ 3. Exit
+1
+Enter Username
+Kavil
+Enter Password
+Kavil514
+Login Success
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+1
+Enter new username
+KAVILJAIN
+Username Updated
+User [uname=KAVILJAIN, password=Kavil514, role=admin, contactNumber=9876543210]
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+2
+Enter new password
+Kav514il
+Password Updated
+User [uname=KAVILJAIN, password=Kav514il, role=admin, contactNumber=9876543210]
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+3
+Enter Category Details
+1. Category Id
+2. Category Name
+1
+Chocolates
+Category added
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+4
+Enter Product Details
+1. Product Id
+2. Product Name
+3. Product Cost
+4. Product Quantity
+5. Product Brand
+101
+Munch
+10
+100
+Nestle
+Product Added
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+4
+Enter Product Details
+1. Product Id
+2. Product Name
+3. Product Cost
+4. Product Quantity
+5. Product Brand
+102
+Perk
+10
+100
+Cadbury
+Product Added
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+3
+Enter Category Details
+1. Category Id
+2. Category Name
+2
+Gadgets
+Category added
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+4
+Enter Product Details
+1. Product Id
+2. Product Name
+3. Product Cost
+4. Product Quantity
+5. Product Brand
+201
+Thinkpad
+70000
+30
+Lenovo
+Product Added
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+4
+Enter Product Details
+1. Product Id
+2. Product Name
+3. Product Cost
+4. Product Quantity
+5. Product Brand
+202
+Tablet
+15000
+50
+Lenovo
+Product Added
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+3
+Enter Category Details
+1. Category Id
+2. Category Name
+3
+Shoes
+Category added
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+4
+Enter Product Details
+1. Product Id
+2. Product Name
+3. Product Cost
+4. Product Quantity
+5. Product Brand
+301
+SportShoes
+2000
+20
+Nike
+Product Added
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+5
+Product [pid=101, pname=Munch, cost=10.0, qty=100, brand=Nestle, category=Category [catid=1, categoryName=Chocolates, products=null]]
+Product [pid=102, pname=Perk, cost=10.0, qty=100, brand=Cadbury, category=Category [catid=1, categoryName=Chocolates, products=null]]
+Product [pid=201, pname=Thinkpad, cost=70000.0, qty=30, brand=Lenovo, category=Category [catid=2, categoryName=Gadgets, products=null]]
+Product [pid=202, pname=Tablet, cost=15000.0, qty=50, brand=Lenovo, category=Category [catid=2, categoryName=Gadgets, products=null]]
+Product [pid=301, pname=SportShoes, cost=2000.0, qty=20, brand=Nike, category=Category [catid=3, categoryName=Shoes, products=null]]
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+6
+Category [catid=1, categoryName=Chocolates, products=null]
+Category [catid=2, categoryName=Gadgets, products=null]
+Category [catid=3, categoryName=Shoes, products=null]
+null
+null
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+7
+Enter Category id and name
+2
+Gadgets
+null
+null
+Product [pid=201, pname=Thinkpad, cost=70000.0, qty=30, brand=Lenovo, category=Category [catid=2, categoryName=Gadgets, products=null]]
+Product [pid=202, pname=Tablet, cost=15000.0, qty=50, brand=Lenovo, category=Category [catid=2, categoryName=Gadgets, products=null]]
+null
+1. Update Username
+2. Update Password
+3. Add Category
+4. Add Product
+5. Get Products
+6. Get Categories
+7. Product Based on Category
+8. Logout
+8
+Bye
+1. Login 
+ 2. Signup 
+ 3. Exit
+1
+Enter Username
+Jain
+Enter Password
+Jain1234
+Login Success
+1. Update Username
+ 2.Update Password
+3. Get Products
+4. Get Categories
+5. Product Based on Category
+6. Logout
+1
+Enter new username
+JainKavil
+Username Updated
+User [uname=JainKavil, password=Jain1234, role=user, contactNumber=8765432109]
+1. Update Username
+ 2.Update Password
+3. Get Products
+4. Get Categories
+5. Product Based on Category
+6. Logout
+2
+Enter new password
+Jain0000
+Password Updated
+User [uname=JainKavil, password=Jain0000, role=user, contactNumber=8765432109]
+1. Update Username
+ 2.Update Password
+3. Get Products
+4. Get Categories
+5. Product Based on Category
+6. Logout
+3
+Product [pid=101, pname=Munch, cost=10.0, qty=100, brand=Nestle, category=Category [catid=1, categoryName=Chocolates, products=null]]
+Product [pid=102, pname=Perk, cost=10.0, qty=100, brand=Cadbury, category=Category [catid=1, categoryName=Chocolates, products=null]]
+Product [pid=201, pname=Thinkpad, cost=70000.0, qty=30, brand=Lenovo, category=Category [catid=2, categoryName=Gadgets, products=null]]
+Product [pid=202, pname=Tablet, cost=15000.0, qty=50, brand=Lenovo, category=Category [catid=2, categoryName=Gadgets, products=null]]
+Product [pid=301, pname=SportShoes, cost=2000.0, qty=20, brand=Nike, category=Category [catid=3, categoryName=Shoes, products=null]]
+1. Update Username
+ 2.Update Password
+3. Get Products
+4. Get Categories
+5. Product Based on Category
+6. Logout
+4
+Category [catid=1, categoryName=Chocolates, products=null]
+Category [catid=2, categoryName=Gadgets, products=null]
+Category [catid=3, categoryName=Shoes, products=null]
+null
+null
+1. Update Username
+ 2.Update Password
+3. Get Products
+4. Get Categories
+5. Product Based on Category
+6. Logout
+5
+Enter Category id and name
+1
+Chocolates
+Product [pid=101, pname=Munch, cost=10.0, qty=100, brand=Nestle, category=Category [catid=1, categoryName=Chocolates, products=null]]
+Product [pid=102, pname=Perk, cost=10.0, qty=100, brand=Cadbury, category=Category [catid=1, categoryName=Chocolates, products=null]]
+null
+null
+null
+1. Update Username
+ 2.Update Password
+3. Get Products
+4. Get Categories
+5. Product Based on Category
+6. Logout
+6
+Bye
+1. Login 
+ 2. Signup 
+ 3. Exit
+3
+Thank You

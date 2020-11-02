@@ -1,0 +1,161 @@
+package com.training.pojos;
+
+public class Employee {
+	private int id;
+	private String name;
+	private int salary;
+	private String designation;
+	private String insuranceScheme;
+
+	public Employee() {
+
+	}
+
+
+	public Employee(int id, String name, int salary, String designation, String insuranceScheme) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.salary = salary;
+		this.designation = designation;
+		this.insuranceScheme = insuranceScheme;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getSalary() {
+		return salary;
+	}
+
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getInsuranceScheme() {
+		return insuranceScheme;
+	}
+
+	public void setInsuranceScheme(String insuranceScheme) {
+		this.insuranceScheme = insuranceScheme;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Employee [name=" + name + ", salary=" + salary + ", designation=" + designation + ", insuranceScheme="
+				+ insuranceScheme + "]";
+	}
+	
+
+}
+
+
+
+
+
+package com.training.service;
+import com.training.pojos.Employee;
+public interface EmployeeService {
+	String getSchema(Employee e);
+	Employee Display();
+}
+
+
+
+
+package com.training.service;
+
+import com.training.pojos.Employee;
+
+public class EmpServices implements EmployeeService {
+
+	//Employee e = new Employee();
+	String schema;
+	@Override
+	public String getSchema(Employee e) {
+		if (e.getSalary() <= 5000 && e.getDesignation().equals("Clerk")) {
+			schema = "No scheme";
+		} else if (e.getSalary() > 5000 && e.getSalary() <= 20000 && e.getDesignation().equals("System Associate")) {
+			schema = "Scheme C";
+		} else if (e.getSalary() > 20000 && e.getSalary() <= 40000 && e.getDesignation().equals("Programmer")) {
+			schema = "Scheme B";
+		} else if (e.getSalary() > 40000 && e.getDesignation().equals("Manager")) {
+			schema = "Scheme A";
+		} else {
+			System.out.println("Invalid input");
+			System.exit(0);
+		}
+		return schema;// TODO Auto-generated method stub
+	}
+
+	@Override
+	public Employee Display() {
+
+		return null;
+		// TODO Auto-generated method stub
+
+	}
+
+}
+
+
+
+
+package com.training.pl;
+import java.util.Scanner;
+import com.training.service.EmpServices;
+import com.training.pojos.Employee;
+public class EmployeeApp {
+
+	public static void main(String[] args) {
+		EmpServices es = new EmpServices();
+		System.out.println("Insurance Schemes");
+		Scanner sc = new Scanner(System.in);
+		Employee e[] = new Employee[1];
+		for(int i=0;i<1;i++) {
+			e[i]=new Employee();
+			System.out.println("Enter name");
+			e[i].setName(sc.next());
+			System.out.println("Enter salary");
+			e[i].setSalary(sc.nextInt());
+			System.out.println("Enter Designation");
+			e[i].setDesignation(sc.next());
+			
+			es.getSchema(e[i]);
+		}
+		sc.close();
+		// TODO Auto-generated method stub
+	}
+
+}
+
+
+
+
+
+
+
+
+

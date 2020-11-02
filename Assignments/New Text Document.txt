@@ -1,0 +1,26 @@
+//1
+db.productDetails.aggregate([
+  {'$unwind' : '$product_bought_by'},
+  {'$sort' : {'product_bought_by.customer' :1}},
+{"$group":{"_id":"$_id","product_name":{"$first":"$product_name"},
+"product_bought_by":{"$push":"$product_bought_by"}}},
+  {"$sort":{"product_name":-1}},
+]);//2
+db.compareTwoFields.find({$where:"this.FullName.FirstName==this.FullName
+.LastName"}).pretty();
+//3
+
+//4
+db.ProductDetails.aggregate([{"$group" :{_id:{product_available:
+"$product_available"}, count:{$sum:1}}},{$sort:{"_id.product_available":1}}])
+//5
+
+
+1. Add the comment based on title, if title contains Java
+db.posts.update({title:"Java 8"},{$push:{comments:{message:"New message for java"}}})
+2. Update the comment message , if author is Krithi
+db.posts.update({by:"Krithi",comments:{$elemMatch:{message:"My first comment"}}},{$set:{"comments.$.message":"Holla"}})
+3. Remove the comment message , is comment dateCreated is less than a month
+db.sales.aggregate( [ {$project:{title:1}},{comments:{total:{$subtract:["$dateCreated","new ISODate()"]}*1000*60*60*24}:{$lt:31}},update:])
+4. Add two more fields like age and email for a description  of MongoDb of all documents.
+5. Display all the documents which contains the tags of "programming" and "java".

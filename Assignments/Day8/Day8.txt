@@ -1,0 +1,400 @@
+1. Account with multiplethreads ex: with 2 threads
+
+Solution:
+
+package com.training.threadexamples;
+
+public class Account implements Runnable{
+	private long accNum;
+	private double balance;
+	
+	public Account(long accNum,double balance) {
+		this.accNum=accNum;
+		this.balance=balance;
+	}
+
+	public long getAccNum() {
+		return accNum;
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+	
+	public void deposit(double amount) {
+		if (amount > 0) {
+			balance += amount;
+		}
+	}
+
+	public void withdraw(double amount) {
+		if(amount>0) {
+			balance -= amount;
+		}
+	}
+
+
+
+	@Override
+	public void run() {
+		this.withdraw(400);
+		System.out.println(Thread.currentThread().getName()+" withdrew: 400 "+" Current Balance: "+this.balance);
+		this.deposit(200);
+		System.out.println(Thread.currentThread().getName()+" deposited: 200 "+" Current Balance: "+this.balance);
+	}
+}
+
+
+
+
+
+
+package com.training.threadexamples;
+
+public class Person extends Thread {
+	private String pname;
+	private float age;
+
+	public Person(String pname, float age, Account acc) {
+		super(acc, pname);
+		this.age = age;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public float getAge() {
+		return age;
+	}
+
+}
+
+
+
+
+
+
+package com.training.threadexamples;
+
+public class AccountApp {
+
+	public static void main(String[] args) {
+		Account a1 = new Account(10002,500);
+		Person p1 = new Person("Kavil",20,a1);
+		Account a2 = new Account(10002,600);
+		Person p2 = new Person("Karan",20,a2);
+		p1.start();
+		p2.start();
+	}
+
+}
+
+
+
+2. Account with withdraw and deposit, only one thread can access the withdraw or deposit method at a time.
+
+Solution:
+
+package com.training.threadexamples;
+
+public class Account implements Runnable {
+	private long accNum;
+	private double balance;
+
+	public Account(long accNum, double balance) {
+		this.accNum = accNum;
+		this.balance = balance;
+	}
+
+	public long getAccNum() {
+		return accNum;
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+
+	public synchronized void deposit(double amount) {
+		if (amount > 0) {
+			balance += amount;
+		}
+	}
+
+	public synchronized void withdraw(double amount) {
+		if(amount>0) {
+			balance -= amount;
+		}
+	}
+
+
+	@Override
+	public void run() {
+		//Person p = (Person) Thread.currentThread();
+		this.withdraw(400);
+		System.out.println(Thread.currentThread().getName() + " withdrew: 400 " + " Current Balance: " + this.balance);
+		this.deposit(200);
+		System.out.println(Thread.currentThread().getName() + " deposited: 200 " + " Current Balance: " + this.balance);
+	}
+}
+
+
+
+
+
+package com.training.threadexamples;
+
+public class Person extends Thread {
+	private String pname;
+	private float age;
+
+	public Person(String pname, float age, Account acc) {
+		super(acc, pname);
+		this.age = age;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public float getAge() {
+		return age;
+	}
+
+}
+
+
+
+
+
+package com.training.threadexamples;
+
+public class AccountApp {
+
+	public static void main(String[] args) throws InterruptedException {
+		Account a1 = new Account(10001,500);
+		Person p1 = new Person("Kavil",20,a1);
+		Account a2 = new Account(10002,600);
+		Person p2 = new Person("Karan",20,a2);
+		Account a3 = new Account(10003,800);
+		Person p3 = new Person("Kishan",20,a3);
+
+		p1.start();
+		Thread.sleep(1000);
+		p2.start();
+		Thread.sleep(1000);
+		p3.start();
+	}
+
+}
+
+
+
+
+3. Withdraw should happen only if balance greater than 0 and Deposit should happen only if balance less than or equal to 0
+
+Solution:
+
+package com.training.threadexamples;
+
+public class Account implements Runnable {
+	private long accNum;
+	private double balance;
+
+	public Account(long accNum, double balance) {
+		this.accNum = accNum;
+		this.balance = balance;
+	}
+
+	public long getAccNum() {
+		return accNum;
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+
+	public synchronized void deposit(double amount) {
+		if (amount > 0 && balance <= 0) {
+			balance += amount;
+		}
+	}
+
+	public synchronized void withdraw(double amount) {
+		if (amount > 0 && balance > 0) {
+			balance -= amount;
+		}
+	}
+
+	@Override
+	public void run() {
+		this.deposit(1000);
+		System.out.println(Thread.currentThread().getName() + " deposited: 1000 " + " Current Balance: " + this.balance);
+		while (balance != 0) {
+			this.withdraw(200);
+			System.out.println(
+					Thread.currentThread().getName() + " withdraw: 200 " + " Current Balance: " + this.balance);
+		}
+	}
+}
+
+
+
+
+package com.training.threadexamples;
+
+public class Person extends Thread {
+	private String pname;
+	private float age;
+
+	public Person(String pname, float age, Account acc) {
+		super(acc, pname);
+		this.age = age;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public float getAge() {
+		return age;
+	}
+
+}
+
+
+
+
+package com.training.threadexamples;
+
+public class AccountApp {
+
+	public static void main(String[] args) throws InterruptedException {
+		Account a1 = new Account(10001,0);
+		Person p1 = new Person("Kavil",2,a1);
+		Account a2 = new Account(10002,0);
+		Person p2 = new Person("Karan",20,a2);
+		Account a3 = new Account(10003,0);
+		Person p3 = new Person("Kishan",20,a3);
+
+		p1.start();
+		Thread.sleep(1000);
+		p2.start();
+		Thread.sleep(1000);
+		p3.start();
+	}
+
+}
+
+
+
+
+
+4. ProducerConsumer Problem with o/p  as follows:
+produced 0
+produced 1
+consumed 0
+consumed 1
+produced 2
+produced 3
+consumed 2
+consumed 3
+produced 4
+produced 5
+consumed 4
+consumed 5
+produced 6
+produced 7
+consumed 6
+consumed 7
+
+Solution:
+
+
+package com.training.threadexamples;
+
+public class Market {
+	int value = 0;
+	public synchronized void produce(int n) throws InterruptedException {
+		if (value==2) {
+			wait();
+		}
+		System.out.println("Produced: " + n);
+		value++;
+		notify();
+	}
+
+	public synchronized void consume(int n) throws InterruptedException {
+		if (value==0) {
+			wait();
+		}
+		System.out.println("Consumed: " + n);
+		value--;
+		notify();
+	}
+}
+
+
+
+
+package com.training.threadexamples;
+
+public class Producer extends Thread {
+	Market m;
+
+	Producer(Market m) {
+		this.m = m;
+	}
+
+	public void run() {
+		for (int i = 0; i < 10; i++) {
+			try {
+				m.produce(i);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
+
+
+
+package com.training.threadexamples;
+
+public class Consumer extends Thread {
+	Market m;
+
+	Consumer(Market m) {
+		this.m = m;
+	}
+
+	public void run() {
+		for (int i = 0; i < 10; i++) {
+			try {
+				m.consume(i);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
+
+
+
+package com.training.threadexamples;
+
+public class ProducerConsumer {
+
+	public static void main(String[] args) throws InterruptedException {
+		Market m = new Market();
+		Producer p = new Producer(m);
+		Consumer c = new Consumer(m);
+		p.start();
+		c.start();
+	}
+
+}

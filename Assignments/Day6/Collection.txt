@@ -1,0 +1,663 @@
+package com.pms.training.exceptions;
+
+
+public class BusinessException extends Exception {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public BusinessException(String message) {
+		super(message);
+	}
+}
+
+
+
+
+package com.pms.training.exceptions;
+
+public class UserNotFoundException extends Exception {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public UserNotFoundException(String message) {
+		super(message);
+	}
+}
+
+
+
+
+
+package com.pms.training.pojos;
+
+import java.util.Arrays;
+
+public class Category implements Comparable<Category> {
+	private int catid;
+	private String categoryName;
+	private Product[] products;
+
+	public Category() {
+
+	}
+
+	public Category(int catid) {
+		this.catid = catid;
+	}
+	
+
+	public Category(int catid, String categoryName) {
+		super();
+		this.catid = catid;
+		this.categoryName = categoryName;
+	}
+
+	public Category(int catid, String categoryName, Product[] products) {
+		this.catid = catid;
+		this.categoryName = categoryName;
+		this.products = products;
+	}
+
+	public int getCatid() {
+		return catid;
+	}
+
+	public void setCatid(int catid) {
+		this.catid = catid;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public Product[] getProducts() {
+		return products;
+	}
+
+	public void setProducts(Product[] products) {
+		this.products = products;
+	}
+
+	@Override
+	public String toString() {
+		return "Category [catid=" + catid + ", categoryName=" + categoryName + ", products=" + Arrays.toString(products)
+				+ "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((categoryName == null) ? 0 : categoryName.hashCode());
+		result = prime * result + catid;
+		result = prime * result + Arrays.hashCode(products);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Category other = (Category) obj;
+		if (categoryName == null) {
+			if (other.categoryName != null)
+				return false;
+		} else if (!categoryName.equals(other.categoryName))
+			return false;
+		if (catid != other.catid)
+			return false;
+		if (!Arrays.equals(products, other.products))
+			return false;
+		return true;
+	}
+
+	@Override
+	public int compareTo(Category o) {
+		return this.catid-o.catid;
+	}
+
+}
+
+
+
+
+
+package com.pms.training.pojos;
+
+public class Product {
+	private int pid;
+	private String pname;
+	private double cost;
+	private int qty;
+	private String brand;
+	private Category category;
+
+	public Product() {
+
+	}
+
+	public Product(int pid, String pname, double cost, int qty, String brand) {
+		this.pid = pid;
+		this.pname = pname;
+		this.cost = cost;
+		this.qty = qty;
+		this.brand = brand;
+		this.category = new Category();
+	}
+
+	public Product(int pid, String pname, double cost, int qty, String brand, Category category) {
+		this.pid = pid;
+		this.pname = pname;
+		this.cost = cost;
+		this.qty = qty;
+		this.brand = brand;
+		this.category = category;
+	}
+
+	public int getPid() {
+		return pid;
+	}
+
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
+
+	public String getPname() {
+		return pname;
+	}
+
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+
+	public double getCost() {
+		return cost;
+	}
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
+	public int getQty() {
+		return qty;
+	}
+
+	public void setQty(int qty) {
+		this.qty = qty;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [pid=" + pid + ", pname=" + pname + ", cost=" + cost + ", qty=" + qty + ", brand=" + brand
+				+ ", category=" + category + "]";
+	}
+
+}
+
+
+
+
+
+
+package com.pms.training.pojos;
+
+import java.time.LocalDate;
+
+public class User {
+	private String uname;
+	private String password;
+	private String role;
+	private LocalDate dob;
+	private long contactNumber;
+
+	public User() {
+
+	}
+
+	public User(String uname, String password, String role, LocalDate dob, long contactNumber) {
+		this.uname = uname;
+		this.password = password;
+		this.role = role;
+		this.dob = dob;
+		this.contactNumber = contactNumber;
+	}
+
+	public User(String role) {
+		this.role = role;
+	}
+
+	public String getUname() {
+		return uname;
+	}
+
+	public void setUname(String uname) {
+		this.uname = uname;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public LocalDate getDob() {
+		return dob;
+	}
+
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+	}
+
+	public long getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(long contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
+	@Override
+	public String toString() {
+		return "User [uname=" + uname + ", password=" + password + ", role=" + role + ", contactNumber=" + contactNumber
+				+ "]";
+	}
+
+}
+
+
+
+
+
+
+package com.pms.training.services;
+
+import java.util.List;
+import java.util.Set;
+
+import com.pms.training.exceptions.BusinessException;
+import com.pms.training.pojos.Category;
+import com.pms.training.pojos.Product;
+
+public interface ProductService {
+	public Product getProduct(int index) throws BusinessException;
+
+	public Set<Product> getAll() throws BusinessException;
+
+	public List<Category> getAllCategories() throws BusinessException;
+
+	public void addProduct(Product p) throws BusinessException;
+
+	public void addCategory(Category c) throws BusinessException;
+
+	public Set<Product> getAllProductsByCategory(Category cat) throws BusinessException;
+}
+
+
+
+
+
+package com.pms.training.services;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import com.pms.training.exceptions.BusinessException;
+import com.pms.training.pojos.Category;
+import com.pms.training.pojos.Product;
+
+public class ProductServiceImpl implements ProductService {
+
+	List<Category> catList = new ArrayList<>();
+	Set<Product> proSet = new TreeSet<>();
+	Product pro = new Product();
+	int count = 0;
+	int catcount = 0;
+	int coun = 0;
+
+	@Override
+	public Product getProduct(int index) throws BusinessException {
+		proSet = getAll();
+		Product product = null;
+		boolean status = false;
+		for (Product p : proSet) {
+			if (p != null && p.getPid() == index) {
+				status = true;
+				product = p;
+			}
+		}
+		if (!status) {
+			throw new BusinessException("Product Not Found!");
+		}
+		return product;
+	}
+
+	@Override
+	public Set<Product> getAll() throws BusinessException {
+		return proSet;
+
+	}
+
+	@Override
+	public List<Category> getAllCategories() throws BusinessException {
+		return catList;
+	}
+
+	@Override
+	public void addProduct(Product p) throws BusinessException {
+		proSet.add(p);
+	}
+
+	@Override
+	public void addCategory(Category c) throws BusinessException {
+		catList.add(c);
+	}
+
+	@Override
+	public Set<Product> getAllProductsByCategory(Category cat) throws BusinessException {
+		Set<Product> pr = new TreeSet<>();
+		Iterator<Product> itr = proSet.iterator();
+		while (itr.hasNext()) {
+			Product p = itr.next();
+			if (p.getCategory().getCatid() == cat.getCatid()) {
+				pr.add(p);
+			}
+		}
+		return pr;
+
+	}
+}
+
+
+
+
+
+package com.pms.training.services;
+
+import java.util.Set;
+
+import com.pms.training.exceptions.BusinessException;
+import com.pms.training.exceptions.UserNotFoundException;
+import com.pms.training.pojos.User;
+
+public interface UserService {
+	public User login(String uname, String password) throws UserNotFoundException;
+
+	public void signUp(User user) throws BusinessException;
+
+	public Set<User> getAllUsers() throws BusinessException;
+
+
+}
+
+
+
+
+
+
+package com.pms.training.services;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import com.pms.training.exceptions.BusinessException;
+import com.pms.training.exceptions.UserNotFoundException;
+import com.pms.training.pojos.User;
+
+public class UserServiceImpl implements UserService {
+	int currentuser = 0;
+	Set<User> users;
+
+	public UserServiceImpl(int size) {
+		users = new HashSet<>(size);
+	}
+
+	@Override
+	public User login(String uname, String password) throws UserNotFoundException {
+		User u = null;
+		for (User user : users) {
+			if (user.getUname().equals(uname) && user.getPassword().equals(password)) {
+				u = user;
+			}
+		}
+		if (u == null) {
+			throw new UserNotFoundException("User doesn't exist");
+		}
+
+		return u;
+	}
+
+	@Override
+	public void signUp(User user) throws BusinessException {
+		if (user.getUname().matches("[A-Z][A-Za-z]*")) {
+			if (user.getPassword().matches("(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{8}")) {
+				if (user.getRole().equalsIgnoreCase("user") || user.getRole().equalsIgnoreCase("admin")) {
+					users.add(user);
+				} else {
+					throw new BusinessException("Invalid Role");
+				}
+			} else {
+				throw new BusinessException(
+						"Invalid Password(Combination of upper, lower and number with 8 Characters)");
+			}
+		} else {
+			throw new BusinessException("Invalid username");
+		}
+	}
+
+	@Override
+	public Set<User> getAllUsers() throws BusinessException {
+		if (users.isEmpty())
+			throw new BusinessException("No Users added");
+		return users;
+	}
+
+}
+
+
+
+
+package com.pms.training.pl;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeMap;
+
+import com.pms.training.exceptions.BusinessException;
+import com.pms.training.exceptions.UserNotFoundException;
+import com.pms.training.pojos.Category;
+import com.pms.training.pojos.Product;
+import com.pms.training.pojos.User;
+import com.pms.training.services.ProductService;
+import com.pms.training.services.ProductServiceImpl;
+import com.pms.training.services.UserService;
+import com.pms.training.services.UserServiceImpl;
+
+public class ProductApp {
+
+	public static void main(String[] args) throws BusinessException {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("How Many Users you want");
+		UserService userService = new UserServiceImpl(sc.nextInt());
+		ProductService productService = new ProductServiceImpl();
+		Product pro = new Product();
+		Category cat = new Category();
+		do {
+			System.out.println("1. Login \n2. Signup \n3. Exit");
+			int choice = sc.nextInt();
+			if (choice == 1) {
+				System.out.println("Enter Username");
+				String name = sc.next();
+				System.out.println("Enter Password");
+				String pass = sc.next();
+				try {
+					User loginDetails = userService.login(name, pass);
+					System.out.println("Login Success");
+					if (loginDetails.getRole().equalsIgnoreCase("admin")) {
+						while (true) {
+							System.out.println(
+									"1. Update Username\n2. Update Password\n3. Add Category\n4. Add Product\n5. Get Products\n6. Get Categories\n7. Product Based on Category\n8. Logout");
+							int nextInt = sc.nextInt();
+							if (nextInt == 1) {
+								System.out.println("Enter new username");
+								loginDetails.setUname(sc.next());
+								System.out.println("Username Updated");
+								System.out.println(loginDetails);
+							} else if (nextInt == 2) {
+								System.out.println("Enter new password");
+								loginDetails.setPassword(sc.next());
+								System.out.println("Password Updated");
+								System.out.println(loginDetails);
+							} else if (nextInt == 3) {
+								System.out.println("Enter Category Details");
+								System.out.println("1. Category Id\n2. Category Name");
+								cat = new Category(sc.nextInt(), sc.next());
+								productService.addCategory(cat);
+								System.out.println("Category added");
+							} else if (nextInt == 4) {
+								System.out.println("Enter Product Details");
+								System.out.println(
+										"1. Product Id\n2. Product Name\n3. Product Cost\n4. Product Quantity\n5. Product Brand");
+								pro = new Product(sc.nextInt(), sc.next(), sc.nextDouble(), sc.nextInt(), sc.next(),
+										cat);
+								productService.addProduct(pro);
+								System.out.println("Product Added");
+							} else if (nextInt == 5) {
+								System.out.println("Enter the Product id");
+								Product proAll = productService.getProduct(sc.nextInt());
+								System.out.println(proAll);
+							} else if (nextInt == 6) {
+								System.out.println("All categories");
+								List<Category> catList = productService.getAllCategories();
+								System.out.println(catList);
+							} else if (nextInt == 7) {
+								Category cc;
+								System.out.println("Enter Category id");
+								cc = new Category(sc.nextInt());
+								Set<Product> getAllp = productService.getAllProductsByCategory(cc);
+								Map<Category, Set<Product>> map = new TreeMap<>();
+								map.put(cc, getAllp);
+								for (Map.Entry<Category, Set<Product>> map1 : map.entrySet()) {
+									System.out.println(map1.getKey());
+									Set<Product> pro1 = map1.getValue();
+									System.out.println(pro1);
+								}
+							} else if (nextInt == 8) {
+								System.out.println("Bye");
+								break;
+							}
+						}
+
+					} else if (loginDetails.getRole().equalsIgnoreCase("user")) {
+						while (true) {
+							System.out.println(
+									"1. Update Username\n2.Update Password\n3. Get Products\n4. Get Categories\n5. Product Based on Category\n6. Logout");
+							int nextInt = sc.nextInt();
+							if (nextInt == 1) {
+								System.out.println("Enter new username");
+								loginDetails.setUname(sc.next());
+								System.out.println("Username Updated");
+								System.out.println(loginDetails);
+							} else if (nextInt == 2) {
+								System.out.println("Enter new password");
+								loginDetails.setPassword(sc.next());
+								System.out.println("Password Updated");
+								System.out.println(loginDetails);
+							} else if (nextInt == 3) {
+								Set<Product> proSet = productService.getAll();
+								System.out.println(proSet);
+							} else if (nextInt == 4) {
+								List<Category> catList = productService.getAllCategories();
+								System.out.println(catList);
+							} else if (nextInt == 5) {
+								Category cc;
+								System.out.println("Enter Category id");
+								cc = new Category(sc.nextInt());
+								Set<Product> getAllp = productService.getAllProductsByCategory(cc);
+								Map<Category, Set<Product>> map = new TreeMap<>();
+								map.put(cc, getAllp);
+								for (Map.Entry<Category, Set<Product>> map1 : map.entrySet()) {
+									System.out.println(map1.getKey());
+									Set<Product> pro1 = map1.getValue();
+									System.out.println(pro1);
+								}
+							} else if (nextInt == 6) {
+								System.out.println("Bye");
+								break;
+							}
+						}
+					}
+				} catch (UserNotFoundException u) {
+					System.out.println(u.getMessage());
+				}
+
+			} else if (choice == 2) {
+				System.out.println("Enter the User Details 1. Dob, 2. Username 3.Password 4.Role 5.ContactNumber");
+				String inputDate = sc.next();
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+				LocalDate dob = LocalDate.parse(inputDate, dtf);
+				User inputUser = new User(sc.next(), sc.next(), sc.next(), dob, sc.nextLong());
+				try {
+					userService.signUp(inputUser);
+					Set<User> getAllUsers = userService.getAllUsers();
+					getAllUsers.forEach(userAll -> System.out.println(userAll));
+				} catch (BusinessException e) {
+					e.printStackTrace();
+				}
+
+			} else if (choice == 3) {
+				System.out.println("Thank You");
+				sc.close();
+				System.exit(0);
+			} else {
+				System.out.println("invalid");
+			}
+		} while (true);
+
+	}
+
+}
